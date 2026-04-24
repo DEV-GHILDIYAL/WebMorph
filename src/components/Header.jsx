@@ -2,19 +2,33 @@ import { Moon, Sun, Zap } from 'lucide-react';
 import { Button, cn } from './ui';
 import { useEffect, useState } from 'react';
 
+const THEMES = [
+  { id: 'light', name: 'Clean', color: 'bg-white border-slate-200' },
+  { id: 'dark', name: 'Dark', color: 'bg-slate-900 border-slate-700' },
+  { id: 'midnight', name: 'Midnight', color: 'bg-blue-950 border-blue-900' },
+  { id: 'cyber', name: 'Cyber', color: 'bg-black border-cyan-500' },
+  { id: 'forest', name: 'Forest', color: 'bg-emerald-950 border-emerald-800' },
+  { id: 'sunset', name: 'Sunset', color: 'bg-purple-950 border-orange-500' },
+  { id: 'nord', name: 'Nord', color: 'bg-slate-700 border-slate-500' },
+];
+
 export function Header({ currentView, onViewChange, isHealthy }) {
   const [theme, setTheme] = useState(localStorage.getItem('theme') || 'light');
 
   useEffect(() => {
+    // Remove all theme classes first
+    const root = document.documentElement;
+    THEMES.forEach(t => root.classList.remove(t.id === 'dark' ? 'dark' : `theme-${t.id}`));
+    
+    // Apply selected theme
     if (theme === 'dark') {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
+      root.classList.add('dark');
+    } else if (theme !== 'light') {
+      root.classList.add(`theme-${theme}`);
     }
+    
     localStorage.setItem('theme', theme);
   }, [theme]);
-
-  const toggleTheme = () => setTheme(theme === 'light' ? 'dark' : 'light');
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -30,41 +44,45 @@ export function Header({ currentView, onViewChange, isHealthy }) {
             </div>
           </div>
 
-          <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-muted border text-[10px] font-bold uppercase tracking-tight">
-            <div className={cn("h-2 w-2 rounded-full", isHealthy ? "bg-emerald-500 animate-pulse" : "bg-amber-500")} />
-            <span className="text-muted-foreground">System:</span>
+          <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-muted border text-[10px] font-bold uppercase tracking-tight font-mono">
+            <div className={cn("h-2 w-2 rounded-full", isHealthy ? "bg-emerald-500 animate-pulse outline outline-offset-2 outline-emerald-500/30" : "bg-amber-500")} />
+            <span className="text-muted-foreground">Pulse:</span>
             <span className={isHealthy ? "text-emerald-600" : "text-amber-600"}>
-              {isHealthy ? "Stable" : "High Load"}
+              {isHealthy ? "Healthy" : "Congested"}
             </span>
           </div>
         </div>
         
         <div className="flex items-center gap-4">
-          <nav className="hidden md:flex gap-6 text-sm font-medium text-muted-foreground">
+          <nav className="hidden lg:flex gap-6 text-sm font-medium text-muted-foreground mr-4">
             <button 
               onClick={() => onViewChange('docs')} 
               className={cn("hover:text-foreground transition-colors", currentView === 'docs' && "text-foreground font-bold")}
             >
-              Documentation
+              Docs
             </button>
             <button 
               onClick={() => onViewChange('dev')} 
               className={cn("hover:text-foreground transition-colors", currentView === 'dev' && "text-foreground font-bold")}
             >
-              The Developer
+              Developer
             </button>
           </nav>
           
-          <div className="h-6 w-[1px] bg-border hidden md:block" />
-          
-          <Button variant="ghost" size="icon" onClick={toggleTheme} className="rounded-full">
-            {theme === 'light' ? (
-              <Moon className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-            ) : (
-              <Sun className="h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
-            )}
-            <span className="sr-only">Toggle theme</span>
-          </Button>
+          <div className="flex items-center gap-1.5 p-1 rounded-full bg-muted/50 border border-border/50">
+            {THEMES.map((t) => (
+              <button
+                key={t.id}
+                onClick={() => setTheme(t.id)}
+                title={t.name}
+                className={cn(
+                  "h-5 w-5 rounded-full border-2 transition-all duration-300 hover:scale-125",
+                  t.color,
+                  theme === t.id ? "scale-110 border-primary shadow-sm" : "border-transparent opacity-60 hover:opacity-100"
+                )}
+              />
+            ))}
+          </div>
         </div>
       </div>
     </header>
