@@ -19,6 +19,22 @@ const THEMES = [
   { id: 'contrast', name: 'High Contrast', color: 'bg-black', border: 'border-white', isDark: true },
 ];
 
+const PRESET_BGS = [
+  { id: 'aston', name: 'Aston Martin', path: '/backgrounds/car_aston.jpg' },
+  { id: 'bmw', name: 'BMW M3', path: '/backgrounds/car_bmw.jpg' },
+  { id: 'japan', name: 'Japan Art', path: '/backgrounds/art_japan.jpg' },
+  { id: 'kakashi', name: 'Kakashi', path: '/backgrounds/anime_kakashi.jpg' },
+  { id: 'spiderman', name: 'Spider-Man', path: '/backgrounds/hero_spiderman.jpeg' },
+  { id: 'spiderman_wide', name: 'Spider-Man Wide', path: '/backgrounds/hero_spiderman_wide.jpg' },
+  { id: 'tanjiro', name: 'Tanjiro', path: '/backgrounds/anime_tanjiro.jpg' },
+  { id: 'pragmata1', name: 'Pragmata 1', path: '/backgrounds/code_pragmata_1.png' },
+  { id: 'pragmata2', name: 'Pragmata 2', path: '/backgrounds/code_pragmata_2.png' },
+  { id: 'coder', name: 'Coder 4K', path: '/backgrounds/code_coder.png' },
+  { id: 'pikachu', name: 'Detective Pikachu', path: '/backgrounds/cute_pikachu.jpg' },
+  { id: 'action', name: 'Movie Action', path: '/backgrounds/action_movie.jpg' },
+  { id: 'abstract', name: 'Abstract Flow', path: '/backgrounds/abstract_1.png' },
+];
+
 export function CustomSettings() {
   const [theme, setTheme] = useState(localStorage.getItem('theme') || 'light');
   const [bgBlur, setBgBlur] = useState(parseInt(localStorage.getItem('bgBlur') || '20'));
@@ -68,6 +84,19 @@ export function CustomSettings() {
     setBgImage(null);
     await settingsStore.del('backgroundImage');
     window.dispatchEvent(new Event('storage-settings-updated'));
+  };
+
+  const setPresetBg = async (path) => {
+    const res = await fetch(path);
+    const blob = await res.blob();
+    const reader = new FileReader();
+    reader.onload = async (event) => {
+      const dataUrl = event.target.result;
+      setBgImage(dataUrl);
+      await settingsStore.set('backgroundImage', dataUrl);
+      window.dispatchEvent(new Event('storage-settings-updated'));
+    };
+    reader.readAsDataURL(blob);
   };
 
   const updateTheme = (newTheme) => {
@@ -334,6 +363,27 @@ export function CustomSettings() {
           </div>
 
           <div className="space-y-6">
+            {/* Presets Gallery */}
+            <div className="space-y-3">
+              <label className="text-[10px] font-bold text-muted-foreground uppercase flex items-center gap-2">
+                 <Sparkles className="h-3 w-3" /> Ambient Presets
+              </label>
+              <div className="grid grid-cols-3 gap-2">
+                {PRESET_BGS.map((bg) => (
+                  <button
+                    key={bg.id}
+                    onClick={() => setPresetBg(bg.path)}
+                    className="group relative h-16 rounded-xl overflow-hidden border-2 border-transparent hover:border-primary transition-all shadow-sm"
+                  >
+                    <img src={bg.path} className="absolute inset-0 w-full h-full object-cover transition-transform group-hover:scale-110" />
+                    <div className="absolute inset-x-0 bottom-0 bg-black/40 backdrop-blur-[2px] py-1 text-[8px] font-bold text-white text-center">
+                      {bg.name}
+                    </div>
+                  </button>
+                ))}
+              </div>
+            </div>
+
             <div className="relative group">
               <div className={cn(
                 "h-48 rounded-2xl border-2 border-dashed flex flex-col items-center justify-center gap-4 transition-all overflow-hidden",
