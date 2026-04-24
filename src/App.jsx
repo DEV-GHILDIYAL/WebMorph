@@ -5,6 +5,9 @@ import { FileCard } from './components/FileCard';
 import { BatchActions } from './components/BatchActions';
 import { DeveloperProfile } from './components/DeveloperProfile';
 import { AboutProject } from './components/AboutProject';
+import { CustomSettings } from './components/CustomSettings';
+import { BackgroundManager } from './components/BackgroundManager';
+import { ThemeArchitect } from './components/ThemeArchitect';
 import { useFileQueue } from './hooks/useFileQueue';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Zap, ShieldCheck, Sparkles } from 'lucide-react';
@@ -45,14 +48,16 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col font-sans text-foreground bg-background">
+    <div className="min-h-screen flex flex-col font-sans text-foreground transition-all duration-500">
+      <BackgroundManager />
+      <ThemeArchitect />
       <Header 
         currentView={currentView} 
         onViewChange={setCurrentView} 
         isHealthy={stats.isHealthy} 
       />
       
-      <main className="flex-1 container mx-auto px-4 py-12 max-w-4xl overflow-x-hidden">
+      <main className="flex-1 container mx-auto px-4 py-12 max-w-4xl overflow-x-hidden relative z-10">
         <AnimatePresence mode="wait">
           {currentView === 'home' && (
             <motion.div
@@ -64,9 +69,9 @@ function App() {
             >
               <div className="mb-12 text-center space-y-4">
                 <motion.div 
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-bold uppercase tracking-wider"
+                   initial={{ opacity: 0, y: 20 }}
+                   animate={{ opacity: 1, y: 0 }}
+                   className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-bold uppercase tracking-wider backdrop-blur-sm"
                 >
                   <ShieldCheck className="h-3 w-3" />
                   Industrial Stability Active
@@ -75,17 +80,17 @@ function App() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.1 }}
-                  className="text-4xl md:text-5xl font-extrabold tracking-tight"
+                  className="text-4xl md:text-5xl font-extrabold tracking-tight drop-shadow-sm"
                 >
                   Transform your images <br />
-                  <span className="text-primary">without the crash.</span>
+                  <span className="text-primary text-glow">without the crash.</span>
                 </motion.h2>
 
                 {!stats.isHealthy && (
                   <motion.div 
                     initial={{ opacity: 0, scale: 0.9 }}
                     animate={{ opacity: 1, scale: 1 }}
-                    className="p-4 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-600 text-sm max-w-md mx-auto"
+                    className="p-4 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-600 text-sm max-w-md mx-auto backdrop-blur-md"
                   >
                     <strong>High Load Warning:</strong> Large queue detected. For maximum stability, consider clearing some files or converting in smaller batches.
                   </motion.div>
@@ -161,6 +166,7 @@ function App() {
 
           {currentView === 'dev' && <DeveloperProfile key="dev" />}
           {currentView === 'docs' && <AboutProject key="docs" />}
+          {currentView === 'custom' && <CustomSettings key="custom" />}
         </AnimatePresence>
       </main>
 
@@ -178,10 +184,10 @@ function App() {
         />
       )}
 
-      <footer className="py-8 border-t bg-muted/30 mt-auto">
+      <footer className="py-8 border-t bg-muted/30 mt-auto relative z-10">
         <div className="container mx-auto px-4 text-center">
           <p className="text-sm text-muted-foreground flex items-center justify-center gap-2">
-            Built for Internal Team Usage • WebMorph &copy; 2026
+            Built with ❤️ by <span className="text-primary font-bold tracking-tight">DEV GHILDIYAL</span> • WebMorph &copy; 2026
           </p>
         </div>
       </footer>

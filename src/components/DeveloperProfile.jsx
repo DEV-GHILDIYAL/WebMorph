@@ -17,10 +17,10 @@ export function DeveloperProfile() {
         
         <div className="relative z-10 flex flex-col items-center">
           <div className="h-32 w-32 rounded-full border-4 border-background shadow-xl mb-6 overflow-hidden bg-muted flex items-center justify-center">
-             <span className="text-4xl font-bold text-primary">DEV</span>
+             <span className="text-4xl font-black text-primary tracking-tighter">DG</span>
           </div>
           
-          <h2 className="text-3xl font-bold tracking-tight mb-2">Build with Precision</h2>
+          <h2 className="text-4xl font-extrabold tracking-tighter mb-2 uppercase">DEV GHILDIYAL</h2>
           <p className="text-muted-foreground text-lg max-w-xl mx-auto mb-8">
             Created by a developer passionate about building high-performance, privacy-focused internal utilities for modern teams.
           </p>

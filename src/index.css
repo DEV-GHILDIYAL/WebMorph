@@ -42,75 +42,17 @@
     --card-foreground: 210 40% 98%;
     --primary: 217.2 91.2% 59.8%;
     --primary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
     --muted: 217.2 32.6% 17.5%;
     --muted-foreground: 215 20.2% 65.1%;
     --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
     --border: 217.2 32.6% 17.5%;
-  }
-
-  .theme-midnight {
-    --background: 224 71% 4%;
-    --foreground: 213 31% 91%;
-    --card: 224 71% 4%;
-    --card-foreground: 213 31% 91%;
-    --primary: 210 100% 66%;
-    --primary-foreground: 222 47% 11%;
-    --muted: 222 47% 11%;
-    --muted-foreground: 215 20% 65%;
-    --accent: 222 47% 11%;
-    --border: 222 47% 11%;
-  }
-
-  .theme-cyber {
-    --background: 230 35% 7%;
-    --foreground: 180 100% 90%;
-    --card: 230 35% 7%;
-    --card-foreground: 180 100% 90%;
-    --primary: 180 100% 50%;
-    --primary-foreground: 230 35% 7%;
-    --muted: 230 35% 15%;
-    --muted-foreground: 180 40% 60%;
-    --accent: 180 100% 50%;
-    --border: 230 35% 20%;
-  }
-
-  .theme-forest {
-    --background: 150 30% 6%;
-    --foreground: 150 20% 90%;
-    --card: 150 30% 6%;
-    --card-foreground: 150 20% 90%;
-    --primary: 142 70% 45%;
-    --primary-foreground: 150 30% 6%;
-    --muted: 150 30% 12%;
-    --muted-foreground: 150 10% 60%;
-    --accent: 142 70% 45%;
-    --border: 150 30% 15%;
-  }
-
-  .theme-sunset {
-    --background: 260 25% 8%;
-    --foreground: 30 100% 95%;
-    --card: 260 25% 8%;
-    --card-foreground: 30 100% 95%;
-    --primary: 10 90% 60%;
-    --primary-foreground: 260 25% 8%;
-    --muted: 260 25% 15%;
-    --muted-foreground: 30 20% 70%;
-    --accent: 330 80% 50%;
-    --border: 260 25% 20%;
-  }
-
-  .theme-nord {
-    --background: 220 15% 15%;
-    --foreground: 220 15% 90%;
-    --card: 220 15% 15%;
-    --card-foreground: 220 15% 90%;
-    --primary: 195 40% 60%;
-    --primary-foreground: 220 15% 15%;
-    --muted: 220 15% 25%;
-    --muted-foreground: 220 10% 65%;
-    --accent: 195 40% 60%;
-    --border: 220 15% 30%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 224.3 76.3% 48%;
   }
 }
 
@@ -119,8 +61,15 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground transition-colors duration-300;
+    @apply bg-background text-foreground transition-colors duration-500 ease-in-out;
+    color: hsl(var(--p));
   }
+  h1 { color: hsl(var(--h1)); }
+  h2 { color: hsl(var(--h2)); }
+  h3 { color: hsl(var(--h3)); }
+  h4, h5, h6 { color: hsl(var(--h4)); }
+  p { color: hsl(var(--p)); }
+  a { color: hsl(var(--link)); }
 }
 
 .glass {
@@ -133,4 +82,96 @@
 
 .dark .card-shadow {
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+}
+
+/* HIGH SPECIFICITY THEME OVERRIDES */
+
+.theme-professional {
+  --background: 232 53% 25%; /* #1E2761 */
+  --foreground: 210 40% 98%;
+  --primary: 205 53% 51%; /* #408EC6 */
+  --primary-foreground: 210 40% 98%;
+  --accent: 333 58% 30%; /* #7A2048 */
+  --border: 205 53% 30%;
+}
+
+.theme-earthy {
+  --background: 61 19% 87%; /* #E7E8D1 */
+  --foreground: 20 15% 15%;
+  --primary: 7 44% 49%; /* #B85042 */
+  --primary-foreground: 61 19% 95%;
+  --accent: 125 15% 70%; /* #A7BEAE */
+  --border: 30 15% 35%; /* #6C5B4C */
+}
+
+.theme-tech {
+  --background: 230 10% 5%; /* #2A3132 */
+  --foreground: 205 31% 90%;
+  --primary: 205 31% 67%; /* #90AFC5 */
+  --primary-foreground: 230 10% 10%;
+  --accent: 200 45% 37%; /* #336B87 */
+  --border: 15 42% 31%; /* #763626 */
+}
+
+.theme-eco {
+  --background: 121 36% 27%; /* #2C5F2D */
+  --foreground: 77 39% 95%;
+  --primary: 85 41% 56%; /* #97BC62 */
+  --primary-foreground: 121 36% 10%;
+  --accent: 77 39% 75%; /* #B3C683 */
+  --border: 30 15% 35%; /* #6C5B4C */
+}
+
+.theme-romantic {
+  --background: 0 35% 97%; /* #FDF6F6 */
+  --foreground: 2 54% 15%;
+  --primary: 2 54% 37%; /* #962E2A */
+  --primary-foreground: 0 35% 98%;
+  --accent: 5 67% 69%; /* #E3867D */
+  --border: 200 66% 85%; /* #CEE6F2 */
+}
+
+.theme-beach {
+  --background: 191 32% 84%; /* #C4DFE6 */
+  --foreground: 182 86% 10%;
+  --primary: 186 31% 54%; /* #66A5AD */
+  --primary-foreground: 182 86% 95%;
+  --accent: 182 86% 19%; /* #07575B */
+  --border: 48 100% 50%; /* #FFCC00 */
+}
+
+.theme-rustic {
+  --background: 8 46% 19%; /* #46211A */
+  --foreground: 31 66% 95%;
+  --primary: 11 67% 38%; /* #A43820 */
+  --primary-foreground: 31 66% 82%;
+  --accent: 31 66% 82%; /* #F1D3B2 */
+  --border: 30 15% 35%; /* #6C5B4C */
+}
+
+.theme-pastel {
+  --background: 218 58% 71%; /* #89ABE3 */
+  --foreground: 218 58% 10%;
+  --primary: 347 74% 71%; /* #EA738D */
+  --primary-foreground: 41 100% 95%;
+  --accent: 41 100% 92%; /* #FFF2D7 */
+  --border: 30 15% 35%; /* #6C5B4C */
+}
+
+.theme-sunset {
+  --background: 356 55% 52%; /* #CA3E47 */
+  --foreground: 39 77% 95%;
+  --primary: 18 73% 67%; /* #E59572 */
+  --primary-foreground: 356 55% 10%;
+  --accent: 39 77% 77%; /* #F2D399 */
+  --border: 30 15% 35%; /* #6C5B4C */
+}
+
+.theme-contrast {
+  --background: 0 0% 0%;
+  --foreground: 0 0% 100%;
+  --primary: 0 0% 100%;
+  --primary-foreground: 0 0% 0%;
+  --accent: 125 15% 70%;
+  --border: 0 0% 50%;
 }
