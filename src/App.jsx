@@ -57,7 +57,7 @@ function App() {
         isHealthy={stats.isHealthy} 
       />
       
-      <main className="flex-1 container mx-auto px-4 py-12 max-w-4xl overflow-x-hidden relative z-10">
+      <main className="flex-1 container mx-auto px-4 py-8 sm:py-12 max-w-4xl overflow-x-hidden relative z-10">
         <AnimatePresence mode="wait">
           {currentView === 'home' && (
             <motion.div
@@ -67,20 +67,20 @@ function App() {
               exit={{ opacity: 0, x: -20 }}
               transition={{ duration: 0.3 }}
             >
-              <div className="mb-12 text-center space-y-4">
+              <div className="mb-8 sm:mb-12 text-center space-y-4">
                 <motion.div 
                    initial={{ opacity: 0, y: 20 }}
                    animate={{ opacity: 1, y: 0 }}
-                   className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-bold uppercase tracking-wider backdrop-blur-sm"
+                   className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-[10px] sm:text-xs font-bold uppercase tracking-wider backdrop-blur-sm"
                 >
                   <ShieldCheck className="h-3 w-3" />
                   Industrial Stability Active
                 </motion.div>
                 <motion.h2 
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.1 }}
-                  className="text-4xl md:text-5xl font-extrabold tracking-tight drop-shadow-sm"
+                   initial={{ opacity: 0, y: 20 }}
+                   animate={{ opacity: 1, y: 0 }}
+                   transition={{ delay: 0.1 }}
+                   className="text-3xl sm:text-5xl font-extrabold tracking-tight drop-shadow-sm leading-[1.1]"
                 >
                   Transform your images <br />
                   <span className="text-primary text-glow">without the crash.</span>
@@ -90,17 +90,17 @@ function App() {
                   <motion.div 
                     initial={{ opacity: 0, scale: 0.9 }}
                     animate={{ opacity: 1, scale: 1 }}
-                    className="p-4 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-600 text-sm max-w-md mx-auto backdrop-blur-md"
+                    className="p-4 rounded-xl bg-amber-500/10 border border-amber-500/20 text-xs sm:text-sm max-w-md mx-auto backdrop-blur-md"
                   >
                     <strong>High Load Warning:</strong> Large queue detected. For maximum stability, consider clearing some files or converting in smaller batches.
                   </motion.div>
                 )}
                 
                 <motion.p 
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.2 }}
-                  className="text-muted-foreground text-lg max-w-xl mx-auto"
+                   initial={{ opacity: 0, y: 20 }}
+                   animate={{ opacity: 1, y: 0 }}
+                   transition={{ delay: 0.2 }}
+                   className="text-muted-foreground text-base sm:text-lg max-w-xl mx-auto"
                 >
                   Optimized for 20-30 concurrent users. No servers, no data leakage, just high-performance conversion.
                 </motion.p>

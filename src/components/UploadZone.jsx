@@ -35,7 +35,7 @@ export function UploadZone({ onFilesAdded, isAdding, addingProgress }) {
   return (
     <div
       className={cn(
-        "relative group cursor-pointer rounded-2xl border-2 border-dashed transition-all duration-300 ease-in-out p-12 text-center",
+        "relative group cursor-pointer rounded-2xl border-2 border-dashed transition-all duration-300 ease-in-out p-6 sm:p-12 text-center",
         isDragging 
           ? "border-primary bg-primary/5 scale-[0.99] shadow-inner" 
           : "border-border hover:border-primary/80 hover:bg-muted/30",

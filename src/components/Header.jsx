@@ -19,34 +19,26 @@ const THEMES = [
 ];
 
 export function Header({ currentView, onViewChange, isHealthy }) {
-  const [theme, setTheme] = useState(localStorage.getItem('theme') || 'light');
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const dropdownRef = useRef(null);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
-    const root = document.documentElement;
-    
     const applyTheme = () => {
       const activeTheme = localStorage.getItem('theme') || 'light';
-      setTheme(activeTheme);
-      
       const selectedTheme = THEMES.find(t => t.id === activeTheme) || THEMES[0];
       
-      // Remove all previous theme classes
       THEMES.forEach(t => {
         if (t.id !== 'dark' && t.id !== 'light') {
-          root.classList.remove(`theme-${t.id}`);
+          document.documentElement.classList.remove(`theme-${t.id}`);
         }
       });
-      root.classList.remove('dark');
+      document.documentElement.classList.remove('dark');
       
-      // Apply new theme
       if (selectedTheme?.isDark || activeTheme === 'custom') {
-        root.classList.add('dark');
+        document.documentElement.classList.add('dark');
       }
       
       if (activeTheme !== 'light' && activeTheme !== 'dark' && activeTheme !== 'custom') {
-        root.classList.add(`theme-${activeTheme}`);
+        document.documentElement.classList.add(`theme-${activeTheme}`);
       }
     };
 
@@ -55,18 +47,34 @@ export function Header({ currentView, onViewChange, isHealthy }) {
     return () => window.removeEventListener('storage-settings-updated', applyTheme);
   }, []);
 
-  // Close dropdown when clicking outside
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        setIsDropdownOpen(false);
-      }
-    };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
-
-  const currentTheme = THEMES.find(t => t.id === theme) || THEMES[0];
+  const NavContent = ({ mobile = false }) => (
+    <>
+      <button 
+        onClick={() => { onViewChange('home'); setIsMobileMenuOpen(false); }} 
+        className={cn("hover:text-foreground transition-colors text-left", currentView === 'home' && !mobile && "text-foreground font-bold underline decoration-primary decoration-2 underline-offset-8", currentView === 'home' && mobile && "text-primary font-bold")}
+      >
+        Convert
+      </button>
+      <button 
+        onClick={() => { onViewChange('custom'); setIsMobileMenuOpen(false); }} 
+        className={cn("hover:text-foreground transition-colors text-left", currentView === 'custom' && !mobile && "text-foreground font-bold underline decoration-primary decoration-2 underline-offset-8", currentView === 'custom' && mobile && "text-primary font-bold")}
+      >
+        Studio
+      </button>
+      <button 
+        onClick={() => { onViewChange('docs'); setIsMobileMenuOpen(false); }} 
+        className={cn("hover:text-foreground transition-colors text-left", currentView === 'docs' && !mobile && "text-foreground font-bold underline decoration-primary decoration-2 underline-offset-8", currentView === 'docs' && mobile && "text-primary font-bold")}
+      >
+        Documentation
+      </button>
+      <button 
+        onClick={() => { onViewChange('dev'); setIsMobileMenuOpen(false); }} 
+        className={cn("hover:text-foreground transition-colors text-left", currentView === 'dev' && !mobile && "text-foreground font-bold underline decoration-primary decoration-2 underline-offset-8", currentView === 'dev' && mobile && "text-primary font-bold")}
+      >
+        Developer
+      </button>
+    </>
+  );
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -76,13 +84,13 @@ export function Header({ currentView, onViewChange, isHealthy }) {
             <div className="bg-primary rounded-lg p-1.5 shadow-lg shadow-primary/20 group-hover:scale-110 transition-transform">
               <Zap className="h-6 w-6 text-primary-foreground fill-current" />
             </div>
-            <div className="hidden sm:block">
-              <h1 className="text-xl font-bold tracking-tight">WebMorph</h1>
-              <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-semibold">Bulk Image Engine</p>
+            <div className="hidden xsm:block">
+              <h1 className="text-xl font-bold tracking-tight leading-none">WebMorph</h1>
+              <p className="text-[9px] uppercase tracking-widest text-muted-foreground font-bold mt-0.5">Bulk Image Engine</p>
             </div>
           </div>
 
-          <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-muted/50 border border-border/50 text-[10px] font-bold uppercase tracking-tight font-mono">
+          <div className="hidden sm:flex items-center gap-2 px-3 py-1 rounded-full bg-muted/50 border border-border/50 text-[9px] font-bold uppercase tracking-tight font-mono">
             <div className={cn("h-2 w-2 rounded-full", isHealthy ? "bg-emerald-500 animate-pulse outline outline-offset-2 outline-emerald-500/30" : "bg-amber-500")} />
             <span className="text-muted-foreground">Pulse:</span>
             <span className={isHealthy ? "text-emerald-600" : "text-amber-600"}>
@@ -92,45 +100,56 @@ export function Header({ currentView, onViewChange, isHealthy }) {
         </div>
         
         <div className="flex items-center gap-4">
-          <nav className="hidden lg:flex gap-6 text-sm font-medium text-muted-foreground mr-4">
-            <button 
-              onClick={() => onViewChange('home')} 
-              className={cn("hover:text-foreground transition-colors", currentView === 'home' && "text-foreground font-bold underline decoration-primary decoration-2 underline-offset-8")}
-            >
-              Convert
-            </button>
-            <button 
-              onClick={() => onViewChange('custom')} 
-              className={cn("hover:text-foreground transition-colors", currentView === 'custom' && "text-foreground font-bold underline decoration-primary decoration-2 underline-offset-8")}
-            >
-              Customize
-            </button>
-            <button 
-              onClick={() => onViewChange('docs')} 
-              className={cn("hover:text-foreground transition-colors", currentView === 'docs' && "text-foreground font-bold underline decoration-primary decoration-2 underline-offset-8")}
-            >
-              Docs
-            </button>
-            <button 
-              onClick={() => onViewChange('dev')} 
-              className={cn("hover:text-foreground transition-colors", currentView === 'dev' && "text-foreground font-bold underline decoration-primary decoration-2 underline-offset-8")}
-            >
-              Developer
-            </button>
+          <nav className="hidden lg:flex gap-8 text-sm font-medium text-muted-foreground mr-4">
+            <NavContent />
           </nav>
           
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2">
              <Button 
                 variant="ghost" 
                 size="icon" 
                 onClick={() => onViewChange('custom')}
-                className="rounded-full hover:bg-primary/10 hover:text-primary transition-all"
+                className="rounded-full hover:bg-primary/10 hover:text-primary transition-all sm:flex hidden"
              >
                 <Palette className="h-5 w-5" />
              </Button>
+
+             {/* Mobile Menu Toggle */}
+             <button 
+                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                className="lg:hidden p-2 rounded-xl hover:bg-muted transition-colors relative z-[60]"
+             >
+                <div className="w-6 h-5 flex flex-col justify-between items-end">
+                   <motion.span animate={{ width: isMobileMenuOpen ? '100%' : '100%', rotate: isMobileMenuOpen ? 45 : 0, y: isMobileMenuOpen ? 9 : 0 }} className="h-0.5 bg-foreground block origin-right" />
+                   <motion.span animate={{ opacity: isMobileMenuOpen ? 0 : 1, width: '70%' }} className="h-0.5 bg-foreground block" />
+                   <motion.span animate={{ width: isMobileMenuOpen ? '100%' : '50%', rotate: isMobileMenuOpen ? -45 : 0, y: isMobileMenuOpen ? -9 : 0 }} className="h-0.5 bg-foreground block origin-right" />
+                </div>
+             </button>
           </div>
         </div>
       </div>
+
+      {/* Mobile Nav Overlay */}
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <motion.div 
+            initial={{ opacity: 0, x: '100%' }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: '100%' }}
+            transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+            className="fixed inset-0 z-50 bg-background/80 backdrop-blur-xl lg:hidden pt-24 px-8"
+          >
+            <nav className="flex flex-col gap-8 text-2xl font-black tracking-tighter uppercase">
+              <NavContent mobile={true} />
+            </nav>
+
+            <div className="absolute bottom-12 left-8 right-8 p-6 rounded-3xl bg-primary/5 border border-primary/10">
+               <p className="text-[10px] font-bold text-muted-foreground uppercase mb-2">Developed by</p>
+               <h4 className="text-xl font-black text-primary uppercase">DEV GHILDIYAL</h4>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </header>
   );
 }
