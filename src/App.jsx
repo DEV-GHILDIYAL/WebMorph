@@ -23,8 +23,20 @@ function App() {
     
     if (completedFiles.length === 0) return;
 
+    const nameCounts = new Map();
+
     completedFiles.forEach(f => {
-      const fileName = f.name.replace(/\.[^/.]+$/, "") + ".webp";
+      const baseName = f.name.replace(/\.[^/.]+$/, "") || "image";
+      let fileName = `${baseName}.webp`;
+
+      if (nameCounts.has(baseName)) {
+        const count = nameCounts.get(baseName) + 1;
+        nameCounts.set(baseName, count);
+        fileName = `${baseName} (${count}).webp`;
+      } else {
+        nameCounts.set(baseName, 0);
+      }
+
       zip.file(fileName, f.webpBlob);
     });
 

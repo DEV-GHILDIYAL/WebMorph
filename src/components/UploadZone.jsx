@@ -52,7 +52,7 @@ export function UploadZone({ onFilesAdded, isAdding, addingProgress }) {
         onChange={handleFileChange}
         multiple
         className="hidden"
-        accept=".png,.jpg,.jpeg,.gif,.bmp,.tiff,.svg,.webp"
+        accept=".png,.jpg,.jpeg,.gif,.bmp,.svg,.webp"
       />
       
       <div className="flex flex-col items-center gap-4">
@@ -74,7 +74,7 @@ export function UploadZone({ onFilesAdded, isAdding, addingProgress }) {
           <p className="text-sm text-muted-foreground max-w-xs mx-auto">
             {isAdding 
               ? "Reading image headers and metadata." 
-              : "Support for PNG, JPG, JPEG, GIF, BMP, TIFF, SVG, WEBP up to 10MB per file."
+              : "Support for PNG, JPG, JPEG, GIF, BMP, SVG, WEBP up to 10MB per file."
             }
           </p>
         </div>
